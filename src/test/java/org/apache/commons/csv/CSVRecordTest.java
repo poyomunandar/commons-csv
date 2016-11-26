@@ -160,15 +160,23 @@ public class CSVRecordTest {
         System.out.println("testRemoveAndAddColumns");
         // do:
         final CSVPrinter printer = new CSVPrinter(new StringBuilder(), CSVFormat.DEFAULT);
+        System.out.println("1");
         final Map<String, String> map = recordWithHeader.toMap();
+        System.out.println("2");
         map.remove("OldColumn");
+        System.out.println("3");
         map.put("ZColumn", "NewValue");
         // check:
         final ArrayList<String> list = new ArrayList<String>(map.values());
+        System.out.println("4");
         Collections.sort(list);
+        System.out.println("5");
         printer.printRecord(list);
+        System.out.println("6");
         Assert.assertEquals("A,B,C,NewValue" + CSVFormat.DEFAULT.getRecordSeparator(), printer.getOut().toString());
+        System.out.println("7");
         printer.close();
+        System.out.println("8");
     }
 
     @Test
