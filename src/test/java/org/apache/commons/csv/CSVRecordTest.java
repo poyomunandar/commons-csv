@@ -65,45 +65,45 @@ public class CSVRecordTest {
     }
 
     @Test
-    public void testGetString() {
+    public void testGetString() throws Exception {
         assertEquals(values[0], recordWithHeader.get("first"));
         assertEquals(values[1], recordWithHeader.get("second"));
         assertEquals(values[2], recordWithHeader.get("third"));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetStringInconsistentRecord() {
+    public void testGetStringInconsistentRecord() throws Exception {
         header.put("fourth", Integer.valueOf(4));
         recordWithHeader.get("fourth");
     }
 
     @Test(expected = IllegalStateException.class)
-    public void testGetStringNoHeader() {
+    public void testGetStringNoHeader() throws Exception {
         record.get("first");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetUnmappedEnum() {
+    public void testGetUnmappedEnum() throws Exception {
         assertNull(recordWithHeader.get(EnumFixture.UNKNOWN_COLUMN));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetUnmappedName() {
+    public void testGetUnmappedName() throws Exception {
         assertNull(recordWithHeader.get("fourth"));
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
-    public void testGetUnmappedNegativeInt() {
+    public void testGetUnmappedNegativeInt() throws Exception {
         assertNull(recordWithHeader.get(Integer.MIN_VALUE));
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
-    public void testGetUnmappedPositiveInt() {
+    public void testGetUnmappedPositiveInt() throws Exception {
         assertNull(recordWithHeader.get(Integer.MAX_VALUE));
     }
 
     @Test
-    public void testIsConsistent() {
+    public void testIsConsistent() throws Exception {
         assertTrue(record.isConsistent());
         assertTrue(recordWithHeader.isConsistent());
 
@@ -112,21 +112,21 @@ public class CSVRecordTest {
     }
 
     @Test
-    public void testIsMapped() {
+    public void testIsMapped() throws Exception {
         assertFalse(record.isMapped("first"));
         assertTrue(recordWithHeader.isMapped("first"));
         assertFalse(recordWithHeader.isMapped("fourth"));
     }
 
     @Test
-    public void testIsSet() {
+    public void testIsSet() throws Exception {
         assertFalse(record.isSet("first"));
         assertTrue(recordWithHeader.isSet("first"));
         assertFalse(recordWithHeader.isSet("fourth"));
     }
 
     @Test
-    public void testIterator() {
+    public void testIterator() throws Exception {
         int i = 0;
         for (final String value : record) {
             assertEquals(values[i], value);
@@ -135,7 +135,7 @@ public class CSVRecordTest {
     }
 
     @Test
-    public void testPutInMap() {
+    public void testPutInMap() throws Exception {
         final Map<String, String> map = new ConcurrentHashMap<String, String>();
         this.recordWithHeader.putIn(map);
         this.validateMap(map, false);
@@ -145,7 +145,7 @@ public class CSVRecordTest {
     }
 
     @Test
-    public void testRemoveAndAddColumns() throws IOException {
+    public void testRemoveAndAddColumns() throws Exception {
         // do:
         final CSVPrinter printer = new CSVPrinter(new StringBuilder(), CSVFormat.DEFAULT);
         final Map<String, String> map = recordWithHeader.toMap();
@@ -160,7 +160,7 @@ public class CSVRecordTest {
     }
 
     @Test
-    public void testToMap() {
+    public void testToMap() throws Exception {
         final Map<String, String> map = this.recordWithHeader.toMap();
         this.validateMap(map, true);
     }
@@ -181,7 +181,7 @@ public class CSVRecordTest {
        assertTrue("Map is empty.", map.isEmpty());
     }
 
-    private void validateMap(final Map<String, String> map, final boolean allowsNulls) {
+    private void validateMap(final Map<String, String> map, final boolean allowsNulls) throws Exception {
         assertTrue(map.containsKey("first"));
         assertTrue(map.containsKey("second"));
         assertTrue(map.containsKey("third"));
