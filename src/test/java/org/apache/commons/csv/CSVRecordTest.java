@@ -124,7 +124,7 @@ public class CSVRecordTest {
     @Test
     public void testIterator() {
         int i = 0;
-        for (final String value : record) {
+        for (String value : record) {
             assertEquals(values[i], value);
             i++;
         }
