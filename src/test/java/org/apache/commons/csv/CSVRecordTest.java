@@ -45,6 +45,7 @@ public class CSVRecordTest {
 
     @Before
     public void setUp() throws Exception {
+        System.out.println(CSVRecordTest.testNumber++);
         values = new String[] { "A", "B", "C" };
         record = new CSVRecord(values, null, null, 0, -1);
         header = new HashMap<String, Integer>();
@@ -52,14 +53,14 @@ public class CSVRecordTest {
         header.put("second", Integer.valueOf(1));
         header.put("third", Integer.valueOf(2));
         recordWithHeader = new CSVRecord(values, header, null, 0, -1);
+        System.out.println(CSVRecordTest.testNumber++);
     }
 
     @Test
     public void testGetInt() {
         assertEquals(values[0], record.get(0));
         assertEquals(values[1], record.get(1));
-        assertEquals(values[2], record.get(2));
-        System.out.println(CSVRecordTest.testNumber++);
+        assertEquals(values[2], record.get(2));        
     }
 
     @Test
@@ -67,44 +68,37 @@ public class CSVRecordTest {
         assertEquals(values[0], recordWithHeader.get("first"));
         assertEquals(values[1], recordWithHeader.get("second"));
         assertEquals(values[2], recordWithHeader.get("third"));
-        System.out.println(CSVRecordTest.testNumber++);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetStringInconsistentRecord() {
         header.put("fourth", Integer.valueOf(4));
         recordWithHeader.get("fourth");
-        System.out.println(CSVRecordTest.testNumber++);
     }
 
     @Test(expected = IllegalStateException.class)
     public void testGetStringNoHeader() {
         record.get("first");
-        System.out.println(CSVRecordTest.testNumber++);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetUnmappedEnum() {
         assertNull(recordWithHeader.get(EnumFixture.UNKNOWN_COLUMN));
-        System.out.println(CSVRecordTest.testNumber++);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetUnmappedName() {
         assertNull(recordWithHeader.get("fourth"));
-        System.out.println(CSVRecordTest.testNumber++);
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
     public void testGetUnmappedNegativeInt() {
         assertNull(recordWithHeader.get(Integer.MIN_VALUE));
-        System.out.println(CSVRecordTest.testNumber++);
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
     public void testGetUnmappedPositiveInt() {
         assertNull(recordWithHeader.get(Integer.MAX_VALUE));
-        System.out.println(CSVRecordTest.testNumber++);
     }
 
     @Test
@@ -114,7 +108,6 @@ public class CSVRecordTest {
 
         header.put("fourth", Integer.valueOf(4));
         assertFalse(recordWithHeader.isConsistent());
-        System.out.println(CSVRecordTest.testNumber++);
     }
 
     @Test
@@ -122,7 +115,6 @@ public class CSVRecordTest {
         assertFalse(record.isMapped("first"));
         assertTrue(recordWithHeader.isMapped("first"));
         assertFalse(recordWithHeader.isMapped("fourth"));
-        System.out.println(CSVRecordTest.testNumber++);
     }
 
     @Test
@@ -130,7 +122,6 @@ public class CSVRecordTest {
         assertFalse(record.isSet("first"));
         assertTrue(recordWithHeader.isSet("first"));
         assertFalse(recordWithHeader.isSet("fourth"));
-        System.out.println(CSVRecordTest.testNumber++);
     }
 
     @Test
@@ -140,7 +131,6 @@ public class CSVRecordTest {
             assertEquals(values[i], value);
             i++;
         }
-        System.out.println(CSVRecordTest.testNumber++);
     }
 
     @Test
@@ -151,7 +141,6 @@ public class CSVRecordTest {
         // Test that we can compile with assigment to the same map as the param.
         final TreeMap<String, String> map2 = recordWithHeader.putIn(new TreeMap<String, String>());
         this.validateMap(map2, false);
-        System.out.println(CSVRecordTest.testNumber++);
     }
 
     @Test
@@ -167,14 +156,12 @@ public class CSVRecordTest {
         printer.printRecord(list);
         Assert.assertEquals("A,B,C,NewValue" + CSVFormat.DEFAULT.getRecordSeparator(), printer.getOut().toString());
         printer.close();
-        System.out.println(CSVRecordTest.testNumber++);
     }
 
     @Test
     public void testToMap() {
         final Map<String, String> map = this.recordWithHeader.toMap();
         this.validateMap(map, true);
-        System.out.println(CSVRecordTest.testNumber++);
     }
 
     @Test
@@ -182,7 +169,6 @@ public class CSVRecordTest {
        final CSVParser parser =  CSVParser.parse("a,b", CSVFormat.DEFAULT.withHeader("A", "B", "C"));
        final CSVRecord shortRec = parser.iterator().next();
        shortRec.toMap();
-        System.out.println(CSVRecordTest.testNumber++);
     }
 
     @Test
@@ -192,7 +178,6 @@ public class CSVRecordTest {
        final Map<String, String> map = shortRec.toMap();
        assertNotNull("Map is not null.", map);
        assertTrue("Map is empty.", map.isEmpty());
-        System.out.println(CSVRecordTest.testNumber++);
     }
 
     private void validateMap(final Map<String, String> map, final boolean allowsNulls) {
@@ -207,7 +192,6 @@ public class CSVRecordTest {
         assertEquals("B", map.get("second"));
         assertEquals("C", map.get("third"));
         assertEquals(null, map.get("fourth"));
-        System.out.println(CSVRecordTest.testNumber++);
     }
 
 }
