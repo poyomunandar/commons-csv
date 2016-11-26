@@ -55,7 +55,7 @@ public class CSVRecordTest {
     }
 
     @Test
-    public void testGetInt() {
+    public void testGetInt() throws Exception {
         System.out.println(CSVRecordTest.testNumber++);
         assertEquals(values[0], record.get(0));
         System.out.println(CSVRecordTest.testNumber++);
